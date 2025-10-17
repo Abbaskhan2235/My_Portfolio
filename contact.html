@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attractive Contact Form</title>
+  
+ <style> 
+
+
+
+#contact {
+  padding: 80px 20px;
+  background-image: url('https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* Creates a parallax-like effect */
+  text-align: center;
+  position: relative;
+  min-height: 100vh; /* Full viewport height for immersion */
+}
+
+/* Overlay for better readability */
+#contact::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3); /* Subtle dark overlay */
+  z-index: 1;
+}
+
+#contact > * {
+  position: relative;
+  z-index: 2;
+}
+
+#contact h2 {
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
+  font-family: 'Arial', sans-serif;
+}
+
+.contact-form {
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  backdrop-filter: blur(5px); /* Light blur on the form container */
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent glass */
+  padding: 30px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  font-size: 16px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1); /* Glass effect */
+  backdrop-filter: blur(10px); /* Subtle blur behind input */
+  color: #fff;
+  placeholder-color: rgba(255, 255, 255, 0.7); /* For placeholder text */
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.contact-form input:hover,
+.contact-form input:focus,
+.contact-form textarea:hover,
+.contact-form textarea:focus {
+  backdrop-filter: blur(15px); /* Slightly more blur on hover/focus */
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2), 0 4px 20px rgba(0, 0, 0, 0.2); /* Glowing ring effect */
+  outline: none;
+  transform: translateY(-2px); /* Subtle lift */
+}
+
+.contact-form button {
+  padding: 15px;
+  background: linear-gradient(135deg, #007bff, #0056b3); /* Gradient for attractiveness */
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 123, 255, 0.3);
+}
+
+.contact-form button:hover {
+  background: linear-gradient(135deg, #0056b3, #004085);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  #contact {
+    padding: 60px 15px;
+    min-height: auto;
+  }
+  
+  .contact-form {
+    padding: 20px;
+  }
+}
+</style> <!-- Link to your CSS file -->
+</head>
+ 
+<body>
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <form class="contact-form">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+  <script>// Contact Form Functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const contactForm = document.querySelector('.contact-form');
+  const personalEmail = 'your-personal-email@example.com'; // Replace with your actual personal email address
+
+  contactForm.addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    // Get form data
+    const formData = new FormData(contactForm);
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const message = formData.get('message');
+
+    // Validate form fields (basic validation)
+    if (!name || !email || !message) {
+      alert('Please fill in all fields.');
+      return;
+    }
+
+    // Validate email format (simple regex)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
+    // Construct the email body
+    const subject = `Contact Form Submission from ${name}`;
+    const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
+
+    // Encode the body for URL
+    const encodedSubject = encodeURIComponent(subject);
+    const encodedBody = encodeURIComponent(body);
+
+    // Create mailto URL
+    const mailtoUrl = `mailto:${personalEmail}?subject=${encodedSubject}&body=${encodedBody}`;
+
+    // Open the user's default email client
+    window.location.href = mailtoUrl;
+
+
+    contactForm.reset();
+
+  
+    alert('Your message has been prepared in your email client. Please send it!');
+  });
+});
+</script> 
+</body>
+</html>
